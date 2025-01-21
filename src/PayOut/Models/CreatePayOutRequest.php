@@ -13,7 +13,7 @@ class CreatePayOutRequest implements \JsonSerializable
     public function __construct(
         public readonly BigDecimal $amount,
         public readonly string $webhook,
-        public readonly string $document,
+        public readonly ?string $document,
         public readonly PixInterface $pixKey,
         public readonly string $externalId,
         public readonly bool $validateDocument = false,
@@ -31,13 +31,18 @@ class CreatePayOutRequest implements \JsonSerializable
 
     public function jsonSerialize(): array
     {
-        return [
+        $data = [
             'amount' => $this->amount->toFloat(),
             'webhook' => $this->webhook,
-            'document' => $this->document,
             'pixKey' => $this->pixKey->value(),
             'externalId' => $this->externalId,
             'validate_document' => $this->validateDocument,
         ];
+
+        if ($this->document !== null) {
+            $data['document'] = $this->document;
+        }
+
+        return $data;
     }
 }
