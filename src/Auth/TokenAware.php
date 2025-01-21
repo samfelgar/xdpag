@@ -8,9 +8,9 @@ trait TokenAware
 {
     private ?string $token = null;
 
-    protected function setToken(AuthResponse $authResponse): void
+    public function setToken(string $token): void
     {
-        $this->token = $authResponse->accessToken;
+        $this->token = $token;
     }
 
     protected function getToken(): string
